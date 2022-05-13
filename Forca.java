@@ -1,4 +1,3 @@
-import java.text.Annotation;
 import java.text.Normalizer;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -17,25 +16,21 @@ public class Forca {
 
         String palavra;
 
-        while(true)
-        {
+        while (true) {
             System.out.println("Informe uma palavra: ");
             palavra = sc.nextLine();
 
             boolean valida = true;
 
-            for(int i=0; i<palavra.length(); i++)
-            {
-                if(confere_char(palavra.charAt(i)))
-                {
+            for (int i = 0; i < palavra.length(); i++) {
+                if (confere_char(palavra.charAt(i))) {
                     System.out.println("A palavra não deve conter números ou caracteres especiais.\n");
                     valida = false;
                     break;
                 }
             }
 
-            if(valida)
-            {
+            if (valida) {
                 break;
             }
 
@@ -48,41 +43,36 @@ public class Forca {
         int repetida_cont = 0;
 
 
-        for(int i=0; i<palavra.length(); i++)
-        {
-            if(palavra.charAt(i)==' ' || palavra.charAt(i)=='-')
-            {
-                vazia[i]=palavra.charAt(i);
+        for (int i = 0; i < palavra.length(); i++) {
+            if (palavra.charAt(i) == ' ' || palavra.charAt(i) == '-') {
+                vazia[i] = palavra.charAt(i);
                 continue;
             }
-            vazia[i]='_';
+            vazia[i] = '_';
         }
 
         int tentativas = 6;
 
-        System.out.println( ANSI_YELLOW + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nJOGO DA FORCA" + ANSI_RESET);
+        System.out.println(ANSI_YELLOW + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nJOGO DA FORCA" + ANSI_RESET);
 
         mostrar_boneco(tentativas);
         mostra_palavra(vazia);
 
-        while(tentativas > 0)
-        {
+        while (tentativas > 0) {
             System.out.println("Letra: ");
             String informado = sc.nextLine();
             informado = informado.toUpperCase();
             informado = remover_acentos(informado);
-            char letra =  informado.charAt(0);
+            char letra = informado.charAt(0);
 
-            if(confere_char(letra) || letra==' ' || letra=='-')
-            {
+            if (confere_char(letra) || letra == ' ' || letra == '-') {
                 System.out.println(ANSI_RED + "Esse caracter é inválido." + ANSI_RESET);
                 continue;
             }
 
             repetida[repetida_cont] = letra;
 
-            if(ver_repetida(letra, repetida, repetida_cont))
-            {
+            if (ver_repetida(letra, repetida, repetida_cont)) {
                 continue;
             }
 
@@ -90,35 +80,31 @@ public class Forca {
 
             boolean aux = checar_letra(letra, palavra, vazia);
 
-            if(fim_de_jogo(vazia))
-            {
+            if (fim_de_jogo(vazia)) {
                 mostra_palavra(vazia);
-                System.out.println( ANSI_GREEN + "Parabéns! Você acertou!" + ANSI_RESET);
+                System.out.println(ANSI_GREEN + "Parabéns! Você acertou!" + ANSI_RESET);
                 break;
             }
 
-            if(aux)
-            {
+            if (aux) {
                 tentativas--;
             }
 
             mostrar_boneco(tentativas);
             mostra_palavra(vazia);
 
+            System.out.println(tentativas);
+
             System.out.print("Tentativas incorretas: ");
-            for(int i=0; i<repetida_cont; i++)
-            {
+            for (int i = 0; i < repetida_cont; i++) {
                 boolean certa = false;
-                for(char letra_vazia : vazia)
-                {
-                    if(letra_vazia==repetida[i])
-                    {
-                        certa=true;
+                for (char letra_vazia : vazia) {
+                    if (letra_vazia == repetida[i]) {
+                        certa = true;
                         break;
                     }
                 }
-                if(certa)
-                {
+                if (certa) {
                     continue;
                 }
                 System.out.print(ANSI_RED + "\t" + repetida[i] + "\t-" + ANSI_RESET);
@@ -126,8 +112,7 @@ public class Forca {
             System.out.println("\n");
         }
 
-        if(tentativas==0)
-        {
+        if (tentativas == 0) {
             System.out.println(ANSI_RED + "Acabaram suas tentativas." + ANSI_RESET);
             System.out.println(ANSI_BLUE + "A resposta correta era: " + palavra + ANSI_RESET);
         }
@@ -135,12 +120,9 @@ public class Forca {
         System.out.println("Fim de jogo.");
     }
 
-    public static boolean fim_de_jogo(char[] vazia)
-    {
-        for(char letra : vazia)
-        {
-            if(letra=='_')
-            {
+    public static boolean fim_de_jogo(char[] vazia) {
+        for (char letra : vazia) {
+            if (letra == '_') {
                 return false;
             }
         }
@@ -148,18 +130,14 @@ public class Forca {
         return true;
     }
 
-    public static boolean ver_repetida(char letra, char[] repetida, int repetida_cont)
-    {
+    public static boolean ver_repetida(char letra, char[] repetida, int repetida_cont) {
         int cont = 0;
 
-        for(int i=0; i<repetida_cont+1; i++)
-        {
-            if(repetida[i]==letra)
-            {
+        for (int i = 0; i < repetida_cont + 1; i++) {
+            if (repetida[i] == letra) {
                 cont++;
 
-                if(cont>1)
-                {
+                if (cont > 1) {
                     System.out.println(ANSI_RED + "Você já utilizou essa letra." + ANSI_RESET);
                     return true;
                 }
@@ -169,19 +147,14 @@ public class Forca {
         return false;
     }
 
-    public static void mostrar_boneco(int tentativas)
-    {
-        if(tentativas!=0)
-        {
+    public static void mostrar_boneco(int tentativas) {
+        if (tentativas != 0) {
             System.out.println("_______");
-        }
-        else
-        {
+        } else {
             System.out.println(ANSI_RED + "_______" + ANSI_RESET);
         }
 
-        switch (tentativas)
-        {
+        switch (tentativas) {
             case 5:
                 System.out.println("|     O\n|\n|");
                 break;
@@ -206,27 +179,25 @@ public class Forca {
         System.out.println();
     }
 
-    public static boolean checar_letra(char letra, String palavra, char[] vazia)
-    {
+    public static boolean checar_letra(char letra, String palavra, char[] vazia) {
         boolean aux = true;
 
-        for(int i=0; i<palavra.length(); i++)
-        {
-            if(letra==palavra.charAt(i) || palavra.charAt(i)== ' ' || palavra.charAt(i) == '-')
-            {
-                vazia[i]=palavra.charAt(i);
-                aux = false;
+        for (int i = 0; i < palavra.length(); i++) {
+            if (letra == palavra.charAt(i) || palavra.charAt(i) == ' ' || palavra.charAt(i) == '-') {
+                vazia[i] = palavra.charAt(i);
+                if(letra == palavra.charAt(i))
+               {
+                    aux = false;
+               }
             }
         }
 
         return aux;
     }
 
-    public static void mostra_palavra(char[] vazia)
-    {
-        for(char letra : vazia)
-        {
-            if(letra=='_') {
+    public static void mostra_palavra(char[] vazia) {
+        for (char letra : vazia) {
+            if (letra == '_') {
                 System.out.print("\t" + letra + "\t");
                 continue;
             }
@@ -235,14 +206,11 @@ public class Forca {
         System.out.println("\n");
     }
 
-    public static boolean confere_char(char caracter)
-    {
+    public static boolean confere_char(char caracter) {
         String invalidos = "0123456789&%!?^><=/*+.,¬¢£@:;[]{}()~#'_";
 
-        for(int i=0; i<invalidos.length(); i++)
-        {
-            if(invalidos.charAt(i)==caracter)
-            {
+        for (int i = 0; i < invalidos.length(); i++) {
+            if (invalidos.charAt(i) == caracter) {
                 return true;
             }
         }
