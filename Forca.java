@@ -1,3 +1,4 @@
+import java.text.Annotation;
 import java.text.Normalizer;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -8,6 +9,7 @@ public class Forca {
     public static final String ANSI_YELLOW = "\u001B[33m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_BLUE = "\u001B[34m";
 
     public static void main(String[] args) {
 
@@ -90,9 +92,8 @@ public class Forca {
 
             if(fim_de_jogo(vazia))
             {
-                System.out.print(ANSI_GREEN);
                 mostra_palavra(vazia);
-                System.out.println("Parabéns! Você acertou!" + ANSI_RESET);
+                System.out.println( ANSI_GREEN + "Parabéns! Você acertou!" + ANSI_RESET);
                 break;
             }
 
@@ -128,7 +129,7 @@ public class Forca {
         if(tentativas==0)
         {
             System.out.println(ANSI_RED + "Acabaram suas tentativas." + ANSI_RESET);
-            System.out.println("A resposta correta era: " + ANSI_YELLOW + palavra + ANSI_RESET);
+            System.out.println(ANSI_BLUE + "A resposta correta era: " + palavra + ANSI_RESET);
         }
 
         System.out.println("Fim de jogo.");
@@ -225,7 +226,11 @@ public class Forca {
     {
         for(char letra : vazia)
         {
-            System.out.print("\t" + letra + "\t");
+            if(letra=='_') {
+                System.out.print("\t" + letra + "\t");
+                continue;
+            }
+            System.out.print(ANSI_BLUE + "\t" + letra + "\t" + ANSI_RESET);
         }
         System.out.println("\n");
     }
